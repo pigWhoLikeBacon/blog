@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="/css/front/list.css" />
+
+<div class="tab-content list-wrapper" id="v-pills-tabContent">
+	<div id="list" class="list" style="display: none">
+	
+		<div th:if="${listTop != null}" class="list-top text-light">
+			<h4 th:text="${listTop}" style="margin: .3rem">hhd</h4>
+		</div>
+		
+		<link rel="stylesheet" href="/css/front/articles.css" />
+		<div th:replace="~{/front/common/articles::articles(${url})}"></div>
+		<script src="/js/front/articles.js"></script>
+
+	</div>
+	<div class="list-line" style="background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2)); width: 100%; height: 20px;"></div>
+</div>
+
+<!-- <div style="background-image: linear-gradient(rgba(167, 102, 255, 1), rgba(152, 109, 188, 1));width: 100%;height: 20px"></div> -->

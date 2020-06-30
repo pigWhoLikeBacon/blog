@@ -1,0 +1,63 @@
+<script src="/js/back/jquery.dataTables.js"></script>
+<script src="/js/back/dataTables.bootstrap4.js"></script>
+<link rel="stylesheet" th:href="@{/css/back/dataTables.bootstrap4.css}" />
+<div class="son-container">
+
+	<h3>Image Manager</h3>
+	<div class="bs"></div>
+
+	<table id="imageTable" class="table table-striped table-bordered"
+		style="width: 100%">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Preview</th>
+				<th>Name</th>
+				<th>Url</th>
+				<th>Operation</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="image : ${images}" th:object="${image}">
+				<td th:text="*{id}"></td>
+				<td><a th:href="*{url}" target="_blank">
+					<img class="img-thumbnail" th:src="*{url} + '_320x180.jpg'">
+				</a></td>
+				<td th:text="*{name}"></td>
+				<td th:text="*{url}"></td>
+				<td>
+					<button th:onClick="|remove('/image/deleteById/| + *{id} + |')|"
+						type="button" class="btn btn-outline-primary btn-sm">Remove</button>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<th>Id</th>
+				<th>Preview</th>
+				<th>Name</th>
+				<th>Url</th>
+				<th>Operation</th>
+			</tr>
+		</tfoot>
+	</table>
+
+	<button type="button" class="btn btn-primary"
+		style="float: right; margin: 10px 5px" data-dismiss="modal"
+		data-toggle="modal" data-target="#modal2">Upload</button>
+	<button type="button" onclick="refresh()" class="btn btn-primary"
+		style="float: right; margin: 10px 5px">Refresh</button>
+	<div class="bs"></div>
+
+	<script type="text/javascript" language="javascript" class="init">
+		$(document).ready(function() {
+			$('#imageTable').DataTable();
+		});
+	</script>
+	
+	<script src="/js/back/refresh.js"></script>
+	<script src="/js/back/remove.js"></script>
+
+</div>
+
+<div th:replace="~{/back/common/uploadimg}"></div>

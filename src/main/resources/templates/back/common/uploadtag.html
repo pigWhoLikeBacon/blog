@@ -1,0 +1,100 @@
+<!-- Modal -->
+<div class="modal fade" id="modal4" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Upload tag</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+
+				<div class="modal-body">
+					<div class="input-group mb-3">
+						<input id="tagId" type="text" class="form-control" placeholder="If empty, create a new tag.">
+						<div class="input-group-append">
+							<span class="input-group-text">id</span>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<input id="tagName" type="text" class="form-control" placeholder="Tag name.">
+						<div class="input-group-append">
+							<span class="input-group-text">name</span>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<input id="tagColor" type="text" class="form-control" placeholder="Choose from this words.">
+						<div class="input-group-append">
+							<span class="input-group-text">color</span>
+						</div>
+					</div>
+
+					<div class="container">
+						<span class="badge badge-primary" style="cursor: pointer" onclick="addColor(this)">badge-primary</span>
+						<span class="badge badge-secondary" style="cursor: pointer" onclick="addColor(this)">badge-secondary</span>
+						<span class="badge badge-success" style="cursor: pointer" onclick="addColor(this)">badge-success</span>
+						<span class="badge badge-danger" style="cursor: pointer" onclick="addColor(this)">badge-danger</span>
+						<span class="badge badge-warning" style="cursor: pointer" onclick="addColor(this)">badge-warning</span>
+						<span class="badge badge-info" style="cursor: pointer" onclick="addColor(this)">badge-info</span>
+						<span class="badge badge-light" style="cursor: pointer" onclick="addColor(this)">badge-light</span>
+						<span class="badge badge-dark" style="cursor: pointer" onclick="addColor(this)">badge-dark</span>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<input id="uploadTagBtn" class="btn btn-primary" type="submit" value="Upload" onclick="uploadTag()"/>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function uploadTag() {
+		var tagId = $("#tagId").val();
+		var tagName = $("#tagName").val();
+		var tagColor = $("#tagColor").val();
+		$.ajax({
+			url: '[[ @{~/tag/save} ]]',
+			type: "post",
+			dataType: "json",
+			contentType: "application/x-www-form-urlencoded",
+			data: {"id":tagId,"name":tagName,"color":tagColor},
+			async: true,
+			success: function(data){
+				if (data.success) {
+					Swal.fire({
+						position : 'top-end',
+						icon : 'success',
+						title : 'Add success! id:' + data.msg,
+						showConfirmButton : false,
+						timer : 1500
+					})
+				} else {
+					Swal.fire({
+						position : 'top-end',
+						icon : 'error',
+						title : 'Add fail! error: ' + data.msg,
+						showConfirmButton : false,
+						timer : 3000
+					})
+				}
+			},
+			error: function(data){
+				Swal.fire({
+					position : 'top-end',
+					icon : 'error',
+					title : 'Add fail!Connection fail.',
+					showConfirmButton : false,
+					timer : 3000
+				})
+			}
+		});
+	}
+	
+	function addColor(obj) {
+		$("#tagColor").val($(obj).html());
+	}
+</script>

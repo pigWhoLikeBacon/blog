@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-dark" th:fragment="nav(module)">
+	<link rel="stylesheet" href="/css/front/navbar.css"/>
+	<div class="navbar-top">
+		<a class="navbar-brand" href="#">Navbar</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbar" aria-controls="navbar"
+			aria-expanded="true" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	</div>
+
+	<div id="navbar" class="navbar-collapse collapse">
+		<ul class="navbar-nav mr-auto">
+			<li id="main" class="nav-item"><a class="nav-link" href="/main">主页</a></li>
+			<li id="skill" class="nav-item"><a class="nav-link" href="/groupByTag?tagId=1">技术</a></li>
+			<li id="tools" class="nav-item"><a class="nav-link" href="/groupByTag?tagId=2">工具</a></li>
+			<li id="take" class="nav-item"><a class="nav-link" href="/groupByTag?tagId=3">杂谈</a></li>
+			<li id="notice" class="nav-item"><a class="nav-link" href="/entity/1">公告</a></li>
+			<li id="about" class="nav-item"><a class="nav-link" href="/entity/2">关于</a></li>
+		</ul>
+		<form class="form-inline nav-form-inline" action="/search" target="_blank">
+			<input class="form-control mr-2 nav-form-control" placeholder="Search" aria-label="Search" type="search" name="words">
+			<button class="btn text-white my-2 my-sm-0 nav-btn" type="submit">&nbsp;&nbsp;搜索&nbsp;&nbsp;</button>
+		</form>
+	</div>
+	
+	<script>
+		var module = '[[ ${module} ]]';
+		$("#" + module).addClass("active");
+	</script>
+</nav>

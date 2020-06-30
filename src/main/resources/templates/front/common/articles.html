@@ -1,0 +1,105 @@
+<div id="articles_refresh" th:fragment="articles(url)">
+	
+	<div class="col-auto align-items-center" style="padding: 0">
+		<select class="custom-select list-select" style="width: 1px;visibility:hidden"></select>
+		<div class="col-auto align-items-center list-select-wrapper" style="float: right;padding: 0">
+			<select onchange="selectArticleSort(this)" class="custom-select list-select">
+				<option th:selected="${sort} == |id,DESC| ? true :false" th:url="@{${url}} + |?page=0&sort=id,DESC|" value="1">最新</option>
+				<option th:selected="${sort} == |id,ASC| ? true :false" th:url="@{${url}} + |?page=0&sort=id,ASC|" value="2">最旧</option>
+				<option th:selected="${sort} == |click,DESC| ? true :false" th:url="@{${url}} + |?page=0&sort=click,DESC|" value="3">最热</option>
+				<option th:selected="${sort} == |click,ASC| ? true :false" th:url="@{${url}} + |?page=0&sort=click,ASC|" value="4">最冷</option>
+			</select>
+		</div>
+	</div>
+	
+	<div th:if="${#lists.isEmpty(articles.content)}" style="text-align: center;">
+		<span>抱歉，没有符合要求的文章。</span>
+	</div>
+	
+	<div class="article media text-dark"></div>
+
+	<div th:each="article : ${articles.content}" th:object="${article}" class="article media text-dark">
+		<a th:href="|/entity/| + *{id}" class="text-dark" target="_blank">
+			<div class="thumbnail" th:style="|background: url(| + *{imageUrl} + |); background-position: center; background-size: cover;|"></div>
+		</a>
+		<div class="media-body article-text">
+			<div class="article-content">
+				<a th:href="|/entity/| + *{id}" class="text-dark" target="_blank">
+					<p th:text="*{introduce}">introduce</p>
+				</a>
+			</div>
+			<div class="article-title">
+				<a th:href="|/entity/| + *{id}" class="text-dark" target="_blank">
+					<span th:text="*{title}" class="s1" style="font-size: 20px">title</span>
+				</a><br>
+				<div class="div1">
+					<a th:href="|/entity/| + *{id}" class="text-dark" target="_blank">
+						<span class="glyphicon glyphicon-chevron-right i" style=""></span>
+					</a>
+				</div>
+				<div>
+					<span style="font-size: small">
+						<span style="text-align: right">
+							<a><span class="glyphicon glyphicon-eye-open" style="float: none;"></span><span th:text="|&nbsp;| + *{click}" style="float: none;"></span></a>
+							<span style="float: none;">&nbsp;&nbsp;</span>
+							<a><span class="glyphicon glyphicon-calendar" style="float: none;"></span><span th:text="|&nbsp;| + *{date}" style="float: none;"></span></a>
+							<span style="float: none;">&nbsp;&nbsp;</span>
+							<a><span class="glyphicon glyphicon-comment" style="float: none;"></span><span th:text="|&nbsp;| + *{commentNumber}" style="float: none;"></span></a>
+						</span></br>
+						<span>
+							<a><span class="glyphicon glyphicon-tags" style="float: none;"></span>&nbsp;标签: </a>
+							<span th:replace="~{/front/common/tags::tags(*{tags})}"></span>
+						</span>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row" style="margin: 0 0 1rem 0">
+	    <ul class="pagination m-auto">
+	        <li class="page-item">
+	            <a class="page-link text-primary" tabindex="-1" href="#"
+                th:onClick="|articlesRefresh('| + @{${url}} + |?page=| + ${articles.number < 1 ? 0 : (articles.number - 1)} + |')|"
+                >&lt;</a>
+	        </li>
+	        
+	        <li th:if="${articles.number >= 2 && articles.number + 1 == articles.totalPages}" class="page-item">
+				<a th:text="${articles.number -1}" class="page-link" href="#"
+				th:onClick="|articlesRefresh('| + @{${url}} + |?page=| + ${articles.number - 2} + |')|"
+				>0</a>
+			</li>
+			<li th:if="${articles.number >= 1}" class="page-item">
+				<a th:text="${articles.number}" class="page-link" href="#"
+				th:onClick="|articlesRefresh('| + @{${url}} + |?page=| + ${articles.number - 1} + |')|"
+				>1</a>
+			</li>
+			<li class="page-item active">
+				<a th:text="${articles.number + 1}" class="page-link">2</a>
+			</li>
+			<li th:if="${articles.number + 2 <= articles.totalPages}" class="page-item">
+				<a th:text="${articles.number + 2}" class="page-link" href="#"
+				th:onClick="|articlesRefresh('| + @{${url}} + |?page=| + ${articles.number + 1} + |')|"
+				>3</a>
+			</li>
+			<li th:if="${articles.number + 3 <= articles.totalPages && articles.number + 1 == 1}" class="page-item">
+				<a th:text="${articles.number + 3}" class="page-link" href="#"
+				th:onClick="|articlesRefresh('| + @{${url}} + |?page=| + ${articles.number - 2} + |')|"
+				>3</a>
+			</li>
+      		<li class="page-item">
+	            <a class="page-link text-primary" href="#"
+	            th:onClick="|articlesRefresh('| + @{${url}} + |?page=| + ${articles.number >= (articles.totalPages - 1) ? articles.number : (articles.number + 1)} + |')|"
+	            >&gt;</a>
+	        </li>
+	        <li class="page-item">
+	            <a class="page-link" th:text="|共| + ${articles.totalPages} + |页|" href="#"
+	            th:onClick="|articlesRefresh('| + @{${url}} + |?page=| + ${articles.totalPages - 1} + |')|"
+	            >10 pages</a>
+	        </li>
+	    </ul>
+	</div>
+	
+	<input type="hidden" th:value="|&sort=| + ${sort}" id="sortUrl"/>
+	<input type="hidden" th:value="${otherUrl}" id="otherUrl"/>
+</div>

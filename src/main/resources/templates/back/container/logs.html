@@ -1,0 +1,101 @@
+<div class="son-container">
+	
+	<h3>Logs</h3>
+	<div class="bs"></div>
+	
+	<h4>Visit Log</h4>
+	<div class="card bg-light text-dark">
+		<div class="card-header">All</div>
+		<div class="card-body">
+			<button th:each="visit : ${visits}" class="btn btn-primary" type="button" onclick="getLog(this)" style="margin: 10px" data-toggle="modal" data-target="#logModal">
+				<span class="glyphicon glyphicon-file" name="/visit-logs" th:text="${visit}"></span>
+			</button>
+		</div>
+	</div>
+	<div class="bs"></div>
+	
+	<h4>general Log</h4>
+	
+	<h5>Today</h5>
+	<div class="card bg-light text-dark">
+		<div class="card-header">All</div>
+		<div class="card-body">
+			<button class="btn btn-primary" type="button" onclick="getLog(this)" style="margin: 10px" data-toggle="modal" data-target="#logModal">
+				<span class="glyphicon glyphicon-file" name="">log_debug.log</span>
+			</button>
+			<button class="btn btn-primary" type="button" onclick="getLog(this)" style="margin: 10px" data-toggle="modal" data-target="#logModal">
+				<span class="glyphicon glyphicon-file" name="">log_error.log</span>
+			</button>
+			<button class="btn btn-primary" type="button" onclick="getLog(this)" style="margin: 10px" data-toggle="modal" data-target="#logModal">
+				<span class="glyphicon glyphicon-file" name="">log_info.log</span>
+			</button>
+			<button class="btn btn-primary" type="button" onclick="getLog(this)" style="margin: 10px" data-toggle="modal" data-target="#logModal">
+				<span class="glyphicon glyphicon-file" name="">log_warn.log</span>
+			</button>
+		</div>
+	</div>
+	<div style="width: 100%;height: 10px"></div>
+	
+	<h5>Before</h5>
+	<div class="card bg-light text-dark">
+		<div class="card-header">Error</div>
+		<div class="card-body">
+			<button th:each="error : ${errors}" class="btn btn-primary" type="button" onclick="getLog(this)" style="margin: 10px" data-toggle="modal" data-target="#logModal">
+				<span class="glyphicon glyphicon-file" name="/error" th:text="${error}"></span>
+			</button>
+		</div>
+	</div>
+	<div style="width: 100%;height: 10px"></div>
+	<div class="card bg-light text-dark">
+		<div class="card-header">Info</div>
+		<div class="card-body">
+			<button th:each="info : ${infos}" class="btn btn-primary" type="button" onclick="getLog(this)" style="margin: 10px" data-toggle="modal" data-target="#logModal">
+				<span class="glyphicon glyphicon-file" name="/info" th:text="${info}"></span>
+			</button>
+		</div>
+	</div>
+	<div style="width: 100%;height: 10px"></div>
+	<div class="card bg-light text-dark">
+		<div class="card-header">Warn</div>
+		<div class="card-body">
+			<button th:each="warn : ${warns}" class="btn btn-primary" type="button" onclick="getLog(this)" style="margin: 10px" data-toggle="modal" data-target="#logModal">
+				<span class="glyphicon glyphicon-file" name="/warn" th:text="${warn}"></span>
+			</button>
+		</div>
+	</div>
+	<div style="width: 100%;height: 10px"></div>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="logModal" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalScrollableTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-scrollable modal-lg"
+			style="max-width: calc(100% - 3.5rem)" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="logModalTitle">Modal
+						title</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div id="logModalBody" class="modal-body"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<script>
+function getLog(e)
+{
+	var span = $(e).find("span");
+	$("#logModalBody").load("/logs" + span.attr("name") + "/" + span.html());
+	$("#logModalTitle").html(span.html());
+}
+</script>

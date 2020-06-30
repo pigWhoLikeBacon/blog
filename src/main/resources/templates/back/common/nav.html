@@ -1,0 +1,36 @@
+<nav class="navbar navbar-side navbar-expand-lg bg-dark navbar-dark sticky-top" th:fragment="nav(module)">
+	
+	<div class="d-flex align-self-center">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	</div>
+		<a class="navbar-brand"  href="#">
+			<img src="/images/head0.png" alt="Card image" height="28">
+			<span>&nbsp;Background</span>
+		</a>
+	<div class="d-flex align-self-center">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-bar"><strong>...</strong></span>
+		</button>
+	</div>
+	
+	<div class="collapse navbar-collapse flex-column" id="navbar-collapse">
+		<ul class="navbar-nav d-lg-block">
+			<div class="d-none d-md-block" style="height:0.5rem"></div>
+			<li id="main" class="nav-item"><a class="nav-link" href="/back/main">Main</a></li>
+			<li id="writing" class="nav-item"><a class="nav-link" href="/back/writing">Writing</a></li>
+			<li id="articleManager" class="nav-item"><a class="nav-link" href="/back/articleManager">Article Manager</a></li>
+			<li id="tagManager" class="nav-item"><a class="nav-link" href="/back/tagManager">Tag Manager</a></li>
+			<li id="commentManager" class="nav-item"><a class="nav-link" href="/back/commentManager">Comment Manager</a></li>
+			<li id="imageManager" class="nav-item"><a class="nav-link" href="/back/imageManager">Image Manager</a></li>
+			<li id="logs" class="nav-item"><a class="nav-link" href="/back/logs">Logs</a></li>
+		</ul>
+	</div>
+
+	<script>
+		var module = '[[ ${module} ]]';
+		$("#" + module).addClass("active");
+	</script>
+
+</nav>

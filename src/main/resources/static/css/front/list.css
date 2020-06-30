@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+.list-top {
+	background-color: rgba(91, 110, 255, 1);
+	text-align: center;
+	margin-bottom: 1rem;
+}
+
+@media (max-width : 992px) {
+	.list-top {
+		background-color: rgba(203, 102, 255, 0.3);
+		border: 2px solid rgba(145, 25, 207, 0.6);
+		border-radius: 10px;
+		margin-right: 1rem;
+		margin-bottom: 2rem;
+	}
+}
+
+.list-wrapper {
+	background-color: rgba(255, 255, 255, 0.6);
+	height: 100%;
+}
+
+@media (max-width : 991px) {
+	.list-wrapper {
+		background-color: rgba(255, 255, 255, 0.2);
+	}
+}
+
+@media (min-width : 992px) {
+	.list-line {
+		display: none;
+	}
+}

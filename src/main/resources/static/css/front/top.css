@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+@media (max-width : 991px) {
+	.top {
+		display:none;
+	}
+}
+
+.email-wrapper {
+	float: right;
+	padding-top: 6px;
+}
+
+.top-email-name {
+	height: 24px;
+	background-color: rgba(0, 0, 100, 0.5);
+	border-radius: 0px 0px 0px 15px;
+	text-align: right;
+	margin: 0 6px 0 0;
+	float: right;
+}
+
+.top-email-content {
+	height: 24px;
+	background-color: rgba(0, 0, 100, 0.5);
+	border-radius: 0px 0px 15px 0px;
+	float: right;
+}

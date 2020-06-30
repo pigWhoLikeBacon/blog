@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{/front/common/header}"></head>
+<body>
+	<div class="container container-wrapper top" style="padding: 0px">
+		<div th:replace="~{/front/common/top}"></div>
+	</div>
+	<div class="container container-wrapper" style="padding: 0px">
+		<nav th:replace="~{/front/common/nav::nav(${module})}"></nav>
+	</div>
+	<div class="container container-wrapper" style="padding: 0px">
+		<div class="row content">
+			<div class="col-lg-9 content1">
+				<div th:replace="~{/front/container/singleArticle}"></div>
+			</div>
+			<div id="content2" class="col-lg-3 content2">
+				<div id="side" th:replace="~{/front/common/side}"></div>
+			</div>
+		</div>
+		<div id="comments" th:replace="~{/front/container/commentArea}"></div>
+		<div id="mobileSide"></div>
+	</div>
+	<div class="container container-wrapper" style="padding: 0px">
+		<footer th:replace="~{/front/common/foot}"></footer>
+	</div>
+</body>
+
+<script>
+	$(document).ready(function() {
+
+		keepSide();
+		$(window).resize(function() {
+			keepSide();
+		});
+
+		function keepSide() {
+			var w = $(window).width();
+			if (w < 992) {
+				pullDownSide();
+			} else {
+				pullUplSide();
+			}
+		}
+
+		function pullDownSide() {
+			var side = $("#content2").html();
+			$("#mobileSide").append(side);
+			$("#content2").empty();
+		}
+
+		function pullUplSide() {
+			var side = $("#mobileSide").html();
+			$("#content2").append(side);
+			$("#mobileSide").empty();
+		}
+	});
+</script>
+
+</html>

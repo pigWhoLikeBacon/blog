@@ -1,0 +1,13 @@
+<a
+th:fragment="tags(tags)"
+th:each="tag : ${tags}"
+th:object="${tag}"
+th:href="|/groupByTag?tagId=| + *{id}"
+target="_blank">
+	<span 
+	th:hid="*{id}"
+	th:text="*{name}"
+	th:class="'badge ' + *{color}"
+	style="margin: 3px">
+	</span>
+</a>

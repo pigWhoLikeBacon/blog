@@ -1,0 +1,222 @@
+<script src="/js/back/jquery-autoHeightTextarea.min.js"></script>
+<div class="row none-container" style="width: 100%; position: relative">
+	<div class="container col-sm-12 padding writing-padding">
+		<form class="form-signin" role="form">
+			<label>Title:</label>
+			<div class="form-label-group">
+				<input th:value="${article.title}" id="articleTitle" class="form-control" placeholder="Do not beyond 100."
+					required="" autofocus="" type="title" name="title">
+			</div>
+			<div style="height: 10px"></div>
+			<label>Content:</label>
+			<div class="form-label-group">
+				<textarea th:text="${article.content}" id="articleContent" class="form-control col-center-block"
+					rows="6" placeholder="Do not beyond 10000."></textarea>
+			</div>
+			<div style="height: 10px"></div>
+			<div class="card" style="float: right; overflow: hidden">
+				<div class="row" style="width: 100%; margin: 0">
+					<button id="addPar" type="button"
+						class="btn btn-primary border-radius-none">addPar</button>
+					<button id="addCode" type="button"
+						class="btn btn-primary border-radius-none">addCode</button>
+					<button id="addImg" type="button"
+						class="btn btn-primary border-radius-none" data-toggle="modal"
+						data-target="#modal1">addImg</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div id="writingSide" class="bg-secondary text-white writing-side" style="overflow-y: scroll;">
+		<div class="row" style="width: 100%; height: 10px"></div>
+		<div class="form-group">
+			<label for="id">Replace id:</label> <input th:value="${article.id}" id="articleId"
+				class="form-control" placeholder="If empty, create a new article.">
+		</div>
+		<div class="form-group">
+			<label for="id">tag:</label>
+			<div class="card">
+				<div id="articleTags" class="card-body" style="padding: 10px">
+					<span th:replace="~{/back/common/tags::tags(${article.tags})}"></span>
+				</div>
+			</div>
+			<div class="row" style="width: 100%; height: 10px"></div>
+			<button id="selectTag" type="button" class="btn btn-primary" style="float: right"
+				data-toggle="modal" data-target="#modal3">Select tag</button>
+		</div>
+		<div class="row" style="width: 100%"></div>
+		<div class="form-group">
+			<label for="cover">Cover image url:</label> <input th:value="${article.imageUrl}" id="articleCover"
+				class="form-control" placeholder="If empty, use defualt image.">
+			<div class="row" style="width: 100%; height: 10px"></div>
+			<button id="selectImage" type="button" class="btn btn-primary"
+				style="float: right" data-toggle="modal" data-target="#modal1">Select
+				image</button>
+			<div class="row" style="width: 100%; height: 10px"></div>
+			<img id="image" th:src="${article.imageUrl}" class="img-thumbnail">
+			<div class="row" style="width: 100%; height: 10px"></div>
+			<button id="refreshImage" type="button" class="btn btn-primary"
+				style="float: right" data-toggle="modal">Refresh cover image</button>
+		</div>
+		<div class="row" style="width: 100%"></div>
+		<div class="form-label-group">
+			<label>Introduce:</label>
+			<textarea th:text="${article.introduce}" id="articleIntroduce" class="form-control col-center-block"
+				rows="3" placeholder="Do not beyond 200."></textarea>
+		</div>
+		<div class="row" style="width: 100%; height: 30px"></div>
+		<div class="form-check">
+			<input id="articleShow" class="form-check-input" type="checkbox"> <label
+				class="form-check-label">Show</label>
+		</div>
+		<button type="submit" class="btn btn-primary" style="float: right" onclick="uploadArticle()">Submit</button>
+		<div class="row" style="width: 100%; height: 10px"></div>
+	</div>
+</div>
+
+<script th:inline="javascript">
+	articleClick = [[ ${article.click} ]];
+</script>
+
+<script>
+	$("#refreshImage").click(function(){
+		$("#image").attr("src", $("#articleCover").val());
+	});
+</script>
+
+<script>
+	//0 is add to cover, 1 is add to content.
+	var state = 0;
+
+	$(document).ready(function() {
+		keepSide();
+		$("#articleContent").autoHeightTextarea();
+		$("#articleIntroduce").autoHeightTextarea();
+	});
+	$(window).resize(function() {
+		keepSide();
+	});
+
+	function keepSide() {
+		var h1 = $("body").outerWidth();
+		if (h1 < 992) {
+			$("#writingSide").css("padding-top", "0");
+		} else {
+			var h2 = $("#nav2").outerHeight();
+			$("#writingSide").css("padding-top", h2 + "px");
+		}
+	}
+
+	$("#selectImage").click(function() {
+		state = 0;
+		getImagePage(1, "Desc");
+	});
+	$("#selectTag").click(function() {
+		getTags();
+	});
+
+	$("#addPar").click(function() {
+		var str = "\r<p style=''>\r" + "\r" + "</p>\r";
+		addContent(str);
+	});
+	$("#addCode").click(function() {
+				var str = "\r<pre class='block-code'><code><xmp>\r" + "\r"
+						+ "</xmp></code></pre>\r";
+				addContent(str);
+	});
+	$("#addImg").click(function() {
+		state = 1;
+		//getImagePage(1, "Desc");
+	});
+
+	function addContent(str) {
+		$("#articleContent").val(function(i, origText) {
+			return origText + str;
+		});
+		$("#articleContent").autoHeightTextarea();
+	}
+</script>
+
+<script>
+
+function uploadArticle() {
+	var articleId = $("#articleId").val();
+	var articleTags = tags;
+	var articleCover = $("#articleCover").val();
+	var articleIntroduce = $("#articleIntroduce").val();
+	var articleShow = document.getElementById("articleShow").checked;
+	var articleTitle = $("#articleTitle").val();
+	var articleContent = $("#articleContent").val();
+	
+	var tags = {};
+	var tagTree = $("#articleTags").find("span");
+	for (var i = 0; i < tagTree.length; i++) {
+		tags["tags[" + i + "].id"] = tagTree.eq(i).attr("hid");
+		//tags["tags[" + i + "].name"] = tagTree.eq(i).html();
+		//tags["tags[" + i + "].color"] = tagTree.eq(i).attr("hcolor");
+	}
+	
+	/* var tags = new Array();
+	var tagTree = $("#articleTags").find("span");
+	for (var i = 0; i < tagTree.length; i++) {
+		tag = {"id": tagTree.eq(i).attr("hid") , "name": "hhd", "color": "hhd" };
+		tags[i] = tag;
+	}  */
+	
+	var article = {
+		"id": articleId,
+		"imageUrl": articleCover,
+		"introduce": articleIntroduce,
+		"isShow": articleShow,
+		"title": articleTitle,
+		"content": articleContent,
+		/* "tags": tags */
+	};
+	
+	$.extend(article, tags);
+	alert(JSON.stringify(article));
+	
+	$.ajax({
+		url: '[[ @{~/article/save} ]]',
+		type: "post",
+		dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+		data: article,
+		async: true,
+		success: function(data){
+			if (data.success) {
+				Swal.fire({
+					position : 'top-end',
+					icon : 'success',
+					title : 'Add success! id:' + data.msg,
+					showConfirmButton : false,
+					timer : 1500
+				})
+			} else {
+				Swal.fire({
+					position : 'top-end',
+					icon : 'error',
+					title : 'Add fail! error: ' + data.msg,
+					showConfirmButton : false,
+					timer : 3000
+				})
+			}
+		},
+		error: function(data){
+			Swal.fire({
+				position : 'top-end',
+				icon : 'error',
+				title : 'Add fail!Connection fail.',
+				showConfirmButton : false,
+				timer : 3000
+			})
+		}
+	});
+}
+</script>
+
+<div th:replace="~{/back/common/selectimg}"></div>
+<div th:replace="~{/back/common/uploadimg}"></div>
+<div th:replace="~{/back/common/selecttag}"></div>
+<div th:replace="~{/back/common/uploadtag}"></div>

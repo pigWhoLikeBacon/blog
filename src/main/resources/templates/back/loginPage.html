@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Background Login</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
+	<link rel="stylesheet" th:href="@{/css/back/floating-labels.css}"/>
+	<style>
+		.bd-placeholder-img {
+			font-size: 1.125rem;
+			text-anchor: middle;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		
+		@media ( min-width : 768px) {
+			.bd-placeholder-img-lg {
+				font-size: 3.5rem;
+			}
+		}
+	</style>
+	<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+	<form class="form-signin" th:action="@{/back/login}" th:method="post">
+		<div class="text-center mb-4">
+			<img class="mb-4" src="/images/head0.png" alt="" width="72" height="72">
+			<h1 class="h3 mb-3 font-weight-normal">Background Login</h1>
+			<p id="msg" style="color: red;" th:text="${msg}"></p>
+			<p id="welcome">Welcome, my master.Do it and enjoy it!</p>
+		</div>
+
+		<div class="form-label-group">
+			<input id="login-username" class="form-control" placeholder="Name" required="" autofocus="" type="text" name="name">
+			<label for="inputName">Name</label>
+		</div>
+
+		<div class="form-label-group">
+			<input id="inputPassword" class="form-control" placeholder="Password" required="" type="password" name="password">
+			<label for="inputPassword">Password</label>
+		</div>
+
+		<div class="checkbox mb-3"><label></label></div>
+		
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+	</form>
+	
+	<script>
+		var msg = $("#msg").html();
+		if (msg != "") {
+			$("#welcome").hide();
+		}
+	</script>
+</body>
+</html>

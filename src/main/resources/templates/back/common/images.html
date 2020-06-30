@@ -1,0 +1,63 @@
+<div id="images_refresh" th:fragment="images(url)">
+	<div id="box" class="row">
+		<div th:each="image : ${images.content}" th:object="${image}" class="col-lg-4">
+			<img id="image0" onClick="selectImg(this)"
+				th:name="*{name}"
+				th:src="*{url} + '_320x180.jpg'"
+				th:alt="*{url}"
+				class="img-thumbnail simg">
+			<div class="bs" style="width: 100%"></div>
+		</div>
+	</div>
+	
+	<div class="row" style="margin-bottom: 1rem">
+	    <ul class="pagination m-auto">
+	        <li class="page-item">
+	            <a class="page-link text-primary" tabindex="-1" 
+                th:onClick="|imagesRefresh('| + @{${url}} + |?page=| + ${images.number < 1 ? 0 : (images.number - 1)} + |')|"
+                >&lt;</a>
+	        </li>
+	        
+	        <li th:if="${images.number >= 2}" class="page-item">
+	        	<span th:if="${images.number + 1 == images.totalPages}">
+					<a th:text="${images.number -1}" class="page-link"
+					th:onClick="|imagesRefresh('| + @{${url}} + |?page=| + ${images.number - 2} + |')|"
+					>0</a>
+				</span>
+			</li>
+			<li th:if="${images.number >= 1}" class="page-item">
+				<a th:text="${images.number}" class="page-link"
+				th:onClick="|imagesRefresh('| + @{${url}} + |?page=| + ${images.number - 1} + |')|"
+				>1</a>
+			</li>
+			<li class="page-item active">
+				<a th:text="${images.number + 1}" class="page-link">2</a>
+			</li>
+			<li th:if="${images.number + 2 <= images.totalPages}" class="page-item">
+				<a th:text="${images.number + 2}" class="page-link"
+				th:onClick="|imagesRefresh('| + @{${url}} + |?page=| + ${images.number + 1} + |')|"
+				>3</a>
+			</li>
+			<li th:if="${images.number + 3 <= images.totalPages}" class="page-item">
+	        	<span th:if="${images.number + 1 == 1}">
+					<a th:text="${images.number + 3}" class="page-link"
+					th:onClick="|imagesRefresh('| + @{${url}} + |?page=| + ${images.number - 2} + |')|"
+					>3</a>
+				</span>
+			</li>
+      		<li class="page-item">
+	            <a class="page-link text-primary"
+	            th:onClick="|imagesRefresh('| + @{${url}} + |?page=| + ${images.number >= (images.totalPages - 1) ? images.number : (images.number + 1)} + |')|"
+	            >&gt;</a>
+	        </li>
+	        <li class="page-item">
+	            <a class="page-link" th:text="${images.totalPages} + | pages|"
+	            th:onClick="|imagesRefresh('| + @{${url}} + |?page=| + ${images.totalPages - 1} + |')|"
+	            >10 pages</a>
+	        </li>
+	    </ul>
+	</div>
+	
+	<script src="/js/back/images.js"></script>
+	
+</div>

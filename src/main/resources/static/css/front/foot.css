@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+.foot {
+	color: gray;
+	background-color: rgba(0, 255, 255, 0.5);
+	margin: 10px 0 10px 0;
+	padding: 3px;
+	border-radius: 0 0 15px 15px;
+}
+
+
+@media (max-width : 991px) {
+	.foot {
+		/* color: #f8f9fa;
+		background-color: rgba(167, 102, 255, 1); */
+		color: gray;
+		background-color: rgba(0, 255, 255, 0.6);
+		border-radius: 0;
+		margin: 0;
+	}
+}

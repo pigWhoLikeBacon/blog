@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+.side {
+	height: calc(100% - 290px);
+	color: #f8f9fa;
+	background-color: rgba(30, 136, 229, 0.6);
+	padding: 10px;
+}
+
+@media (max-width : 991px) {
+	.side {
+		/* display: none; */
+		background-color: rgba(30, 136, 229, 1);
+		height: auto;
+		margin: 0;
+	}
+}
+
+.side a {
+	color: #f8f9fa;
+}
+
+.sf {
+	background-color: rgba(63, 72, 204, 0.3);
+	margin-bottom: 10px;
+	padding-bottom: 1px;
+}
+
+.min-title {
+	font-size: 18px;
+}
+
+.min-title-wrapper {
+	background-color: rgba(30, 80, 229, 0.8);
+	padding: 3px 10px 3px 10px;
+}

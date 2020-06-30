@@ -1,0 +1,70 @@
+<script src="/js/back/jquery.dataTables.js"></script>
+<script src="/js/back/dataTables.bootstrap4.js"></script>
+<link rel="stylesheet" th:href="@{/css/back/dataTables.bootstrap4.css}" />
+
+<div class="son-container">
+	
+	<h3>Tag Manager</h3>
+	<div class="bs"></div>
+
+	<table id="tagTable" class="table table-striped table-bordered"
+		style="width: 100%">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Preview</th>
+				<th>Name</th>
+				<th>Color</th>
+				<th>Operation</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="tag : ${tags}" th:object="${tag}">
+				<td th:id="'tagId' + *{id}" th:text="*{id}"></td>
+				<td>
+					<span th:replace="~{/back/common/tags::tags(${tag})}"></span>
+				</td>
+				<td th:id="'tagName' + *{id}" th:text="*{name}"></td>
+				<td th:id="'tagColor' + *{id}" th:text="*{color}"></td>
+				<td>
+					<button th:onclick="'revision(\'' + *{id} + '\')'" type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modal4">Revision</button>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<th>Id</th>
+				<th>Preview</th>
+				<th>Name</th>
+				<th>Color</th>
+				<th>Operation</th>
+			</tr>
+		</tfoot>
+	</table>
+	
+	<button type="button" onclick="refresh()" class="btn btn-primary"
+		style="float: right; margin: 10px 5px">Refresh</button>
+	<button onclick="revision(0)" type="button" class="btn btn-primary"
+		style="float: right; margin: 10px 5px" data-toggle="modal" data-target="#modal4">Upload</button>
+
+	<script type="text/javascript" language="javascript" class="init">
+		$(document).ready(function() {
+			$('#tagTable').DataTable();
+		});
+		
+		function refresh()
+		{
+			window.location.replace(window.location.href);
+		}
+		
+		function revision(id)
+		{
+			$("#tagId").val($("#tagId" + id).html());
+			$("#tagName").val($("#tagName" + id).html());
+			$("#tagColor").val($("#tagColor" + id).html());
+		}
+	</script>
+
+</div>
+
+<div th:replace="~{/back/common/uploadtag}"></div>

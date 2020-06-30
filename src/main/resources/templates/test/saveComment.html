@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>save comment</title>
+</head>
+<body>
+	<form id="dataForm" method="post" action="/comment/save"  enctype="multipart/form-data">
+		<input type="hidden" name="id" value=""/>
+		<label>name:</label>
+		<input type="text" name="name" value=""/>
+		</br></br>
+		<label>Email:</label>
+		<input type="text" name="Email" value=""/>
+		</br></br>
+		<label>website:</label>
+		<input type="text" name="website" value=""/>
+		</br></br>
+		<label>content:</label>
+		<input type="text" name="content" value=""/>
+		</br></br>
+		<label>date(date,for example:2000-1-1):</label>
+		<input type="text" name="date" value=""/>
+		</br></br>
+		<label>articleId(int):</label>
+		<input type="text" name="articleId" value=""/>
+		</br></br>
+		<label>parentId(int):</label>
+		<input type="text" name="parentId" value=""/>
+		</br></br>
+		<input type="submit" value="submit"/>
+	</form>
+</body>
+</html>

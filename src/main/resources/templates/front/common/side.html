@@ -1,0 +1,38 @@
+<div th:replace="~{/front/common/calendar}"></div>
+
+<div class="nav flex-column nav-pills side" id="v-pills-tab"
+	role="tablist" aria-orientation="vertical">
+	<link rel="stylesheet" href="/css/front/side.css" />
+	<div class="sf">
+		<div class="min-title-wrapper">
+			<span class="min-title">标签云</span>
+		</div>
+		<div style="padding: .5rem 1rem">
+			<span th:replace="~{/front/common/tags::tags(${tags})}"></span>
+		</div>
+	</div>
+	<div class="sf">
+		<div class="min-title-wrapper">
+			<span class="min-title">最新文章</span>
+		</div>
+		<a class="nav-link"
+			th:each="article : ${newArticles}"
+			th:object="${article}"
+			th:text="*{title}"
+			target="_blank"
+			th:href="|/entity/| + *{id}">title</a>
+	</div>
+	<div class="sf">
+		<div class="min-title-wrapper">
+			<span class="min-title">归档</span>
+		</div>
+		<a class="nav-link"
+		th:each="item : ${countGroupByMonths}"
+		th:object="${item}"
+		target="_blank"
+		th:href="|/groupByTime?year=| + *{year} + |&month=| + *{month}">
+			<span th:text="*{year} + |年| + *{month} + |月|">2020年1月</span>
+			<span th:text="*{count} + |篇|" class="count float-right">3篇</span>
+		</a>
+	</div>
+</div>

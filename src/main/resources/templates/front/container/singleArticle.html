@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="/css/front/entity.css"/>
+
+<div th:if="${article != null}">
+	<img th:src="${article.imageUrl}" class="img-fluid img-top">
+</div>
+<div class="img-line" style="background-color: rgba(167, 102, 255, 1);width: 100%;height: 24px"></div>
+<div class="tab-content main-wrapper" id="v-pills-tabContent">
+
+	<div th:if="${article == null}" class="main">
+		<p>文章不存在</p>
+	</div>
+
+	<div th:if="${article != null}" class="main" th:object="${article}">
+		<h4 th:text="*{title}">Title</h4>
+		<span style="text-align: right">
+			<a><span class="glyphicon glyphicon-eye-open" style="float: none;"></span><span th:text="|&nbsp;| + *{click}" style="float: none;"></span></a>
+			<span style="float: none;">&nbsp;&nbsp;</span>
+			<a><span class="glyphicon glyphicon-calendar" style="float: none;"></span><span th:text="|&nbsp;| + *{date}" style="float: none;"></span></a>
+			<span style="float: none;">&nbsp;&nbsp;</span>
+			<a><span class="glyphicon glyphicon-comment" style="float: none;"></span><span th:text="|&nbsp;| + *{commentNumber}" style="float: none;"></span></a>
+		</span></br>
+		<p style="text-align: center">
+			<a><span class="glyphicon glyphicon-tags" style="float: none;"></span>&nbsp;标签: </a>
+			<span th:replace="~{/front/common/tags::tags(*{tags})}"></span>
+		</p>
+		<div th:utext="*{content}"></div>
+	</div>
+	<div class="row content-foot" style="background-image: linear-gradient(rgba(250, 235, 180, 0.2), rgba(255, 255, 255, 0.4)">
+		<div class="col-6 content-foot-content">
+			<span>上一篇文章</br></span>
+			<a th:if="${front.id} != null" th:href="|/entity/| + ${front.id}"><span class="glyphicon glyphicon-chevron-left"></span><span th:text="|&nbsp;| + ${front.title}">&nbsp;hhd</span></a>
+			<a th:if="${front.id} == null" href="#"><span class="glyphicon glyphicon-chevron-left"></span><span>&nbsp;没有了</span></a>
+		</div>
+		<div class="col-6 content-foot-content">
+			<span style="float: right">下一篇文章</span></br>
+			<a th:if="${back.id} != null" style="float: right" th:href="|/entity/| + ${back.id}"><span th:text="${back.title} + |&nbsp;|">hhd&nbsp;</span><span class="glyphicon glyphicon-chevron-right"></span></a>
+			<a th:if="${back.id} == null" style="float: right" href="#"><span>没有了&nbsp;</span><span class="glyphicon glyphicon-chevron-right"></span></a>
+		</div>
+	</div>
+	<div class="content-bottem"></div>
+</div>
+<!-- <div style="background-image: linear-gradient(rgba(167, 102, 255, 1), rgba(152, 109, 188, 1));width: 100%;height: 20px"></div> -->

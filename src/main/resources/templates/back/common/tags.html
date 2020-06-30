@@ -1,0 +1,9 @@
+<div id="tags_refresh" th:fragment="tags(tags)">
+<span
+th:each="tag : ${tags}"
+th:object="${tag}"
+th:hid="*{id}"
+th:text="*{name}"
+th:class="'badge ' + *{color}"
+style="margin: 3px"></span>
+</div>

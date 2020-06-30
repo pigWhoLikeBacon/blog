@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{/back/common/header}"></head>
+<body>
+	<div class="layout-nav-side">
+		<nav th:replace="~{/back/common/nav::nav(${module})}"></nav>
+		<div class="main-container">
+			<nav th:replace="~{/back/common/nav2}"></nav>
+			<div th:replace="~{/back/container/__${module}__}"></div>
+		</div>
+	</div>
+</body>
+</html>

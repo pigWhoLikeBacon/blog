@@ -1,0 +1,153 @@
+<div class="son-container">
+	<div class="card" style="width: 100%;overflow: hidden">
+		<img class="card-img" src="/images/top3.png" alt="Card image" style="width: 100%">
+	</div>
+	<div class="bs"></div>
+	<div class="row">
+		<div class="col-lg-6 padding-none">
+			<div class="col-lg-12 bs">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-title">Overview</h4>
+						<p class="card-text">There is all of your blog.</p>
+						<div class="row">
+							<div class="col-sm-6">
+								<span>Article&nbsp;x&nbsp;</span>
+								<span class="card-text" th:text="${articleSum}"></span>
+							</div>
+							<div class="col-sm-6">
+								<span>Comment&nbsp;x&nbsp;</span>
+								<span class="card-text" th:text="${commentSum}"></span>
+							</div>
+							<div class="col-sm-6">
+								<span>Image&nbsp;x&nbsp;</span>
+								<span class="card-text" th:text="${imageSum}"></span>
+							</div>
+							<div class="col-sm-6">
+								<span>Tag&nbsp;x&nbsp;</span>
+								<span class="card-text" th:text="${tagSum}"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-lg-12 bs">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-title">Comments</h4>
+						<div class="row">
+							<div class="col-sm-6">
+								<span>Read&nbsp;x&nbsp;</span>
+								<span class="card-text" th:text="${commentIsreadSum}"></span>
+							</div>
+							<div class="col-sm-6">
+								<span>Unread&nbsp;x&nbsp;</span>
+								<span class="card-text" th:text="${commentUnreadSum}"></span>
+							</div>
+						</div>
+						<div class="bs"></div>
+						<div class="row">
+							<div class="col-sm-6">
+								<span>Unread:</span>
+							</div>
+							<a href="/back/commentManager" class="card-link col-sm-6">Read More</a>
+						</div>
+						<div class="bs"></div>
+						<div class="bs" th:each="comment : ${comments}">
+							<div class="card">
+								<div class="card-body row">
+									<div class="col-sm-6">
+										<span>Id:&nbsp;</span>
+										<span class="card-text" th:text="${comment.id}"></span>
+									</div>
+									<div class="col-sm-6">
+										<span>Name:&nbsp;</span>
+										<span class="card-text" th:text="${comment.name}"></span>
+									</div>
+									<div class="col-sm-6">
+										<span>Article Id:&nbsp;</span>
+										<span class="card-text" th:text="${comment.article.id}"></span>
+									</div>
+									<div class="col-sm-6">
+										<span>Date:&nbsp;</span>
+										<span class="card-text" th:text="${comment.date}"></span>
+									</div>
+									<div class="col-12">
+										<span>Email:&nbsp;</span>
+										<span class="card-text" th:text="${comment.Email}"></span>
+									</div>
+									<div class="col-12">
+										<span>website:&nbsp;</span>
+										<span class="card-text" th:text="${comment.website}"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div th:if="${article == null}" class="col-lg-6 bs">
+			<div class="card">
+				<div class="card-body">
+					<p>No article.</p>
+				</div>
+			</div>
+		</div>
+		
+		<div th:if="${article != null}" class="col-lg-6 bs">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">New Article</h4>
+					<div class="row">
+						<div class="col-sm-6">
+							<span>Show&nbsp;x&nbsp;</span>
+							<span class="card-text" th:text="${articleHideSum}"></span>
+						</div>
+						<div class="col-sm-6">
+							<span>Hide&nbsp;x&nbsp;</span>
+							<span class="card-text" th:text="${commentUnreadSum}"></span>
+						</div>
+					</div>
+					<div class="bs"></div>
+					<div class="row">
+						<span class="card-text col-sm-6" th:text="${article.title}"></span>
+						<a th:href="'/back/writing/' + ${article.id}" class="card-link col-sm-6">Edit</a>
+						<div class="col-sm-6">
+							<span>Id:&nbsp;</span>
+							<span class="card-text" th:text="${article.id}"></span>
+						</div>
+						<div class="col-sm-6">
+							<span>Show:&nbsp;</span>
+							<span class="card-text" th:text="${article.isShow}"></span>
+						</div>
+						<div class="col-sm-6">
+							<span>Click:&nbsp;</span>
+							<span class="card-text" th:text="${article.click}"></span>
+						</div>
+						<div class="col-sm-6">
+							<span>Date:&nbsp;</span>
+							<span class="card-text" th:text="${article.date}"></span>
+						</div>
+						<div class="col-sm-12"><span>Tag:&nbsp;</span></div>
+						<div class="col-4" th:each="tag : ${article.tags}">
+							<span th:text="${tag.name}"></span>
+						</div>
+						<img th:src="${article.imageUrl}" class="img-thumbnail">
+						<div class="col-sm-12">
+							<span>Introduce:&nbsp;</span>
+							<span class="card-text" th:text="${article.introduce}"></span>
+						</div>
+						<div class="col-sm-12">
+							<span>Content:&nbsp;</span></br>
+							<span class="card-text" th:text="${article.content}"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>

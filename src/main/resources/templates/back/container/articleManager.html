@@ -1,0 +1,88 @@
+<script src="/js/back/jquery.dataTables.js"></script>
+<script src="/js/back/dataTables.bootstrap4.js"></script>
+<link rel="stylesheet" href="/css/back/dataTables.bootstrap4.css" />
+
+<div class="son-container">
+	
+	<div class="row">
+		<h3 class="col-sm-9">Article Manager</h3>
+		<div class="col-sm-3">
+			<span>Show&nbsp;x&nbsp;</span>
+			<span class="card-text" th:text="${articleShowSum}"></span>
+			<span>&nbsp;&nbsp;&nbsp;</span>
+			<span>Hide&nbsp;x&nbsp;</span>
+			<span class="card-text" th:text="${articleHideSum}"></span>
+			<span>&nbsp;&nbsp;&nbsp;</span>
+		</div>
+	</div>
+	<div class="bs"></div>
+
+	<table id="articleTable" class="table table-striped table-bordered"
+		style="width: 100%">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>click</th>
+				<th>Tag</th>
+				<th>Cover</th>
+				<th>title</th>
+				<th>Introduce</th>
+				<th>date</th>
+				<th>Show</th>
+				<th>Operation</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="article : ${articles}" th:object="${article}">
+				<td th:text="*{id}"></td>
+				<td th:text="*{click}"></td>
+				<td><span th:replace="~{/back/common/tags::tags(*{tags})}"></span></td>
+				<td><a th:href="*{imageUrl}" target="_blank">
+					<img class="img-thumbnail" th:src="*{imageUrl} + '_320x180.jpg'">
+				</a></td>
+				<td th:text="*{title}"></td>
+				<td th:text="*{introduce}"></td>
+				<td th:text="*{date}"></td>
+				<td th:text="*{isShow}"></td>
+				<td>
+					<button th:onclick="|getAjax('/article/show/| + *{id} + |')|"
+						type="button" class="btn btn-outline-info btn-sm">Show</button>
+					<button th:onclick="|getAjax('/article/hide/| + *{id} + |')|"
+						type="button" class="btn btn-outline-info btn-sm">Hide</button>
+					<a th:href="'/back/writing/' + *{id}" target="_blank">
+						<button type="button" class="btn btn-outline-primary btn-sm">Revision</button>
+					</a>
+					<a th:href="'/entity/' + *{id}" target="_blank">
+						<button type="button" class="btn btn-outline-success btn-sm">View</button>
+					</a>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<th>Id</th>
+				<th>click</th>
+				<th>Tag</th>
+				<th>Cover</th>
+				<th>title</th>
+				<th>Introduce</th>
+				<th>date</th>
+				<th>Show</th>
+				<th>Operation</th>
+			</tr>
+		</tfoot>
+	</table>
+	
+	<button type="button" onclick="refresh()" class="btn btn-primary"
+		style="float: right; margin: 10px 5px">Refresh</button>
+
+	<script type="text/javascript" language="javascript" class="init">
+		$(document).ready(function() {
+			$('#articleTable').DataTable();
+		});
+	</script>
+	
+	<script src="/js/back/refresh.js"></script>
+	<script src="/js/back/getAjax.js"></script>
+
+</div>

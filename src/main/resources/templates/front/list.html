@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{/front/common/header}"></head>
+<body>
+	<div class="container container-wrapper top" style="padding: 0px">
+		<div th:replace="~{/front/common/top}"></div>
+	</div>
+	<div class="container container-wrapper" style="padding: 0px">
+		<nav th:replace="~{/front/common/nav::nav(${module})}"></nav>
+		<div th:replace="~{/front/common/carousel}"></div>
+	</div>
+	<div class="container container-wrapper" style="padding: 0px">
+		<div class="row content">
+			<div class="col-lg-9 content1">
+				<div th:replace="~{/front/container/list}"></div>
+			</div>
+			<div class="col-lg-3 content2">
+				<div th:replace="~{/front/common/side}"></div>
+			</div>
+		</div>
+	</div>
+	<div class="container container-wrapper" style="padding: 0px">
+		<footer th:replace="~{/front/common/foot}"></footer>
+	</div>
+</body>
+</html>

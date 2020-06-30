@@ -1,0 +1,60 @@
+<link rel="stylesheet" th:href="@{/css/back/img.css}" />
+<!-- 模态框 -->
+<div class="modal fade" id="modal1">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+
+			<!-- 模态框头部 -->
+			<div class="modal-header">
+				<h4 class="modal-title">Select Image&nbsp;&nbsp;&nbsp;</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<!-- 模态框主体 -->
+			<div class="modal-body">
+			
+				 <div th:replace="~{/back/common/images::images('/image/page')}"></div>
+				 
+			</div>
+
+			<!-- 模态框底部 -->
+			<div class="modal-footer">
+				<span id="prespan">
+					<button id="refreshImage" type="button" class="btn btn-primary" onclick="imagesRefresh('/image/page')">Refresh</button>
+				</span>
+				<span id="prespan">
+					<button id="selectImage" type="button" class="btn btn-primary" onclick="addImg()">Select</button>
+				</span>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#modal2">Upload</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<script>
+	function addImg() {
+		if ($(".simg-active").length > 0) {
+			var url = $(".simg-active").attr("alt");
+			if (state == 0) {
+				$('#articleCover').val(url);
+			} else {
+				addContent('<img class="img-fluid" src="' + url + '">\r\r');
+			}
+			Swal.fire({
+				position : 'top-end',
+				icon : 'success',
+				title : 'Add image element success!',
+				showConfirmButton : false,
+				timer : 1500
+			})
+		} else {
+			Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: 'Unselected picture!',
+			})
+		}
+	}
+</script>

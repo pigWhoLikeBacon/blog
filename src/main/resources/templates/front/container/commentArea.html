@@ -1,0 +1,161 @@
+<link rel="stylesheet" href="/css/front/comments.css" />
+<div id="comments" class="comments">
+
+	<div th:replace="~{/front/common/comments::comments(${url})}"></div>
+	<script src="/js/front/comments.js"></script>
+
+	<div class="comment-from-warpper">
+		<div class="comment-from-title-wrapper">
+			<a class="min-title" style="color: rgb(255, 255, 255)"><span class="glyphicon glyphicon-edit"></span> 评论</a>
+		</div>
+		<form>
+			<div class="row" style="width: 100%;margin:0 auto;">
+				<input type="hidden" th:value="${articleId}" id="articleId"/>
+				<div class="form-group col-lg-6">
+					<textarea class="form-control comment-content" id="commentContent"
+						placeholder="评论内容，不能为空。" rows="3"></textarea>
+				</div>
+				<div class="form-group col-lg-2 col2"></div>
+				<div class="form-group col-lg-4">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroupPrepend">名称</span>
+						</div>
+						<input id="commentName" type="text" class="form-control" placeholder="名称，不能为空。">
+					</div>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroupPrepend">邮箱</span>
+						</div>
+						<input id="commentEmail" type="text" class="form-control" placeholder="邮箱，可以为空。（将展示）">
+					</div>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroupPrepend">网址</span>
+						</div>
+						<input id="commentWebsite" type="text" class="form-control" placeholder="网站，可以为空。（将展示）">
+					</div>
+					
+					<img id="headshot" th:src="'/images/headshot_3.png'" class="align-self-start mr-3 img-thumbnail simg" headshotId="3"
+					data-toggle="modal" data-target="#selectHeadshot" style="width: 70px;float: left;margin-bottom: 10px;cursor: pointer;">
+					<!-- Modal -->
+					<div class="modal fade" id="selectHeadshot" tabindex="-1" role="dialog" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">选择头像</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-4 text-center">
+											<img th:src="'/images/headshot_1.png'" class="align-self-start img-thumbnail"
+											style="width: 70px;cursor: pointer;" data-dismiss="modal" onclick="selectHeadshot(1)">
+										</div>
+										<div class="col-4 text-center">
+											<img th:src="'/images/headshot_2.png'" class="align-self-start img-thumbnail"
+											style="width: 70px;cursor: pointer;" data-dismiss="modal" onclick="selectHeadshot(2)">
+										</div>
+										<div class="col-4 text-center">
+											<img th:src="'/images/headshot_3.png'" class="align-self-start img-thumbnail"
+											style="width: 70px;cursor: pointer;" data-dismiss="modal" onclick="selectHeadshot(3)">
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="comment-submit-wrapper">
+						<span class="glyphicon glyphicon-info-sign" style="visibility: hidden">Info</span>
+						<a style="color: rgb(255, 255, 255);float: right;cursor: pointer" onclick="showRule()">
+						<span class="glyphicon glyphicon-info-sign"></span> 规则</a>
+					</div>
+					<div class="comment-submit-wrapper">
+						<input type="button" class="btn btn-info comment-submit comment-submit-hide" value="submit">
+						<input type="button" class="btn btn-info comment-submit comment-submit-show" value="发 表 评 论" onclick="uploadComment()">
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	function selectHeadshot(id) {
+		$("#headshot").attr("headshotId", id);
+		$("#headshot").attr("src", "/images/headshot_" + id + ".png");
+	}
+</script>
+
+<script>
+	function showRule() {
+		Swal.fire({
+			title: '规则',
+			html: '<div style="text-align: left">'
+			+ '1.评论的所有内容（包括邮箱和网址）将展示。(不希望展示的内容请不要填写)</br></br>'
+			+ '2.评论的中展示的网站可能存在<span style="color:red">危险</span>，请谨慎打开。</br></br>'
+			+ '3.评论者的信息可能造假，请勿轻易相信他人(一个人可能扮演其他人)</br></br>'
+			+ '4.请有礼貌地发言。</br>'
+			+ '</div>',
+		})
+	}
+</script>
+
+<script>
+	function uploadComment() {
+		var articleId = $("#articleId").val();
+		var content = $("#commentContent").val();
+		var name = $("#commentName").val();
+		var Email = $("#commentEmail").val();
+		var website = $("#commentWebsite").val();
+		var headshotId = $("#headshot").attr("headshotId");
+		$.ajax({
+			url: '[[ @{~/comment/save} ]]',
+			type: "post",
+			dataType: "json",
+			contentType: "application/x-www-form-urlencoded",
+			data: {
+				"article.id":articleId,
+				"content":content,
+				"name":name,
+				"Email":Email,
+				"website":website,
+				"headshotId":headshotId
+			},
+			async: true,
+			success: function(data){
+				if (data.success) {
+					Swal.fire(
+						'成功!',
+						data.msg,
+						'success'
+					);
+					commentsRefresh('[[ ${url} ]]' + '?page=0');
+				} else {
+					Swal.fire(
+						'错误!',
+						data.msg,
+						'error'
+					);
+				}
+			},
+			error: function(data){
+				Swal.fire(
+					'错误!',
+					'连接失败，请检查网络。',
+					'error'
+				);
+			}
+		});
+	}
+	
+	function addColor(obj) {
+		$("#tagColor").val($(obj).html());
+	}
+</script>
